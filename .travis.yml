@@ -1,0 +1,11 @@
+language: python
+sudo: required
+python:
+- '2.7'
+install:
+- pip install opencellid
+script:
+  - python ./get_opencellid_feed.py
+  - docker build -t sitch/feed_data_ocid .
+after_success:
+- docker push sitch/feed_data_ocid
