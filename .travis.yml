@@ -7,11 +7,14 @@ services:
 install:
 - pip install opencellid
 script:
+- export ISODATE=`date "+%Y-%m"`
 - python ./get_opencellid_feed.py
 - docker build -t ${IMAGE_REPOSITORY}:latest .
+- docker tag ${IMAGE_REPOSITORY}:latest ${IMAGE_REPOSITORY}:${ISODATE}
 after_success:
 - docker login -u $DOCKERHUB_USER -p $DOCKERHUB_PASSWORD
 - docker push ${IMAGE_REPOSITORY}:latest
+- docker push ${IMAGE_REPOSITORY}:${ISODATE}
 env:
   global:
   - secure: 2KkKNUVgPVugpRD2o6Gfj2uIreaid4yu1f88I2k+AQiQmYGZfe2rWaAFQt6/VlJ+uVS17SlSDe/rg1RNq0DRyLwRFtHu8sKF/mswYJw4ocXVmbhigb/S7jvCfSsquJKyl9otG4QFyrJaMViSh7RKpSr0ZnLBP8aBHWgnJqFFrslp4uwp/iD3iLk8KUnk9+LS3O/vCZmz5etzUGMMDMUo+fREjR9ZS1w+gWBX18Up2J2v81uTFYtisfqnrUq4HNrnt0hI4gsiu+a3e3B81TLofIuTVxpxj9aoLkLNErIsjddfSzs+JhYmGGbl+/SvC3/0rGQjTDaU1DDQvXwQGokGenW4H2ifMOIaaoTTN2yKE77FnslKk72Wm7HlH3wbV4V+7yL0dZTVU6P9JwsPRFB4T45WFT/9eI8DBxq4nl03NnvWnMIJ9NIn4qaMj9OPGBwJftnMKWkjy5CgrybhsjiZ6RBbtukMdrIDyi9myyJWlHYfsRXXV+qpaFRPIeh7CeXUJ39zl8u4fCjZ8A7UAd965yrMiEvBBMoo6+9OhSBeMiOnAQzTSFbxLg6wZI4b0c/epn//tbYMo87mCOfPez3vaScz0WCOyR0H4oAlmEfQLvDpALNMrpH8lb1yB41kCFdcSGWMOg3025R+3plgbuRwyayy0MiZzPCU6SN4KiyDmdY=
