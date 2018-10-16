@@ -5,7 +5,7 @@ python:
 services:
 - docker
 install:
-- pip install opencellid
+- pip install opencellid~=1
 script:
 - export ISODATE=`date "+%Y-%m"`
 - python ./get_opencellid_feed.py
